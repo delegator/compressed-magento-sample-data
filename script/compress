@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+# permissions
+find . -type f -exec chmod a-x "{}" \;
+
+# images
+find . -type f -name '*.jpg' -exec jpegoptim -f --strip-all -m50 "{}" \;
+find . -type f -name '*.png' -exec pngquant --force --skip-if-larger --speed 1 --output "{}" "{}" \;
+find . -type f -name '*.gif' -exec gifsicle -O3 "{}" -o "{}" \;
+
+# audio
+find . -type f -name '*.mp3' -exec rm "{}" \; -exec touch "{}" \;
